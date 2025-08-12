@@ -71,7 +71,7 @@ public class deleteNode {
 //		prev.next=cur.next;
 //		
 //	}
-	public void deleteNthNode(int n) {
+	public void deleteNthNodeFromStart(int n) {
 	    if (n <= 0 || root == null) {
 	        return; // invalid position or empty list
 	    }
@@ -99,6 +99,37 @@ public class deleteNode {
 	    // Update head in case we deleted the first node
 	    root = dummy.next;
 	}
+	public void deleteNthFromEnd(int n) {
+	    if (n <= 0 || root == null) {
+	        return; // invalid n or empty list
+	    }
+
+	    Node dummy = new Node(0);
+	    dummy.next = root;
+	    Node first = dummy;
+	    Node second = dummy;
+
+	    // Move first ahead by n+1 steps
+	    for (int i = 0; i <= n; i++) {
+	        if (first == null) {
+	            return; // n is larger than list length
+	        }
+	        first = first.next;
+	    }
+
+	    // Move both until first reaches the end
+	    while (first != null) {
+	        first = first.next;
+	        second = second.next;
+	    }
+
+	    // Delete target node
+	    second.next = second.next.next;
+
+	    // Update head
+	    root = dummy.next;
+	}
+
 	public static void main(String[] args) {
 		
 		deleteNode dn=new deleteNode();
@@ -111,7 +142,8 @@ public class deleteNode {
 		dn.display();
 		System.out.println();
 		
-		dn.deleteNthNode(2);
+		dn.deleteNthNodeFromStart(2);
+		dn.deleteNthFromEnd(2);
 		dn.display();
 		
 
