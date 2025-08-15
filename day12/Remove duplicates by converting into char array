@@ -1,0 +1,30 @@
+package com.day12;
+
+public class RemoveDuplicatesInPlace {
+	public static String removeDuplicates(char[] arr) {
+        int n = arr.length;
+        if (n < 2) return new String(arr);
+
+        int j = 0; // pointer for unique characters
+
+        for (int i = 0; i < n; i++) {
+            int k;
+            for (k = 0; k < j; k++) {
+                if (arr[i] == arr[k]) {
+                    break; // duplicate found
+                }
+            }
+            if (k == j) { // unique char
+                arr[j++] = arr[i];
+            }
+        }
+        return new String(arr, 0, j);
+    }
+
+    public static void main(String[] args) {
+        char[] arr = "programming".toCharArray();
+        String result = removeDuplicates(arr);
+        System.out.println("After removing duplicates: " + result);
+    }
+
+}
