@@ -1,0 +1,120 @@
+package com.day19;
+
+
+
+class Node1 {
+    int val;
+    Node1 next;
+
+    public Node1(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class SinglyLinkedlist {
+    private Node1 root;
+
+    public SinglyLinkedlist() {
+        this.root = null;
+    }
+
+    // Add at end
+    public void addNewNode(int val) {
+        Node1 n = new Node1(val);
+        if (this.root == null) {
+            this.root = n;
+            return;
+        }
+        Node1 temp = this.root;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = n;
+    }
+
+    // Display list
+    public void display() {
+        if (this.root == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        Node1 temp = this.root;
+        while (temp != null) {
+            System.out.print(temp.val);
+            if (temp.next != null)
+                System.out.print("->");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    // --- Sorting Logic ---
+    public void sortList() {
+        this.root = mergeSort(this.root);
+    }
+
+    private Node1 mergeSort(Node1 head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Find middle
+        Node1 mid = getMiddle(head);
+        Node1 nextOfMid = mid.next;
+        mid.next = null;
+
+        // Sort halves
+        Node1 left = mergeSort(head);
+        Node1 right = mergeSort(nextOfMid);
+
+        // Merge sorted halves
+        return merge(left, right);
+    }
+
+    private Node1 getMiddle(Node1 head) {
+        if (head == null) return head;
+        Node1 slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    private Node1 merge(Node1 a, Node1 b) {
+        Node1 dummy = new Node1(-1);
+        Node1 tail = dummy;
+
+        while (a != null && b != null) {
+            if (a.val <= b.val) {
+                tail.next = a;
+                a = a.next;
+            } else {
+                tail.next = b;
+                b = b.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (a != null) ? a : b;
+        return dummy.next;
+    }
+
+    // --- Main driver ---
+    public static void main(String[] args) {
+        SinglyLinkedlist sll = new SinglyLinkedlist();
+        sll.addNewNode(30);
+        sll.addNewNode(10);
+        sll.addNewNode(50);
+        sll.addNewNode(20);
+        sll.addNewNode(40);
+
+        System.out.println("Before Sorting:");
+        sll.display();
+
+        sll.sortList();
+
+        System.out.println("After Sorting:");
+        sll.display();
+    }
+}
